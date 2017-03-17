@@ -74,9 +74,11 @@ export default class Tabs extends PureComponent {
     let tabsTotalWidth = 0;
     const tabsWidth = {};
     Object.keys(this.tabRefs).forEach((key) => {
-      const width = this.tabRefs[key].tab.offsetWidth;
-      tabsWidth[key.replace(tabPrefix, '')] = width;
-      tabsTotalWidth += width;
+      if (this.tabRefs[key] !== null) {
+        const width = this.tabRefs[key].tab.offsetWidth;
+        tabsWidth[key.replace(tabPrefix, '')] = width;
+        tabsTotalWidth += width;
+      }
     });
 
     const newState = { tabsWidth, tabsTotalWidth, blockWidth };
@@ -105,6 +107,8 @@ export default class Tabs extends PureComponent {
         getContent,
         disabled,
         tabClassName,
+        closable,
+        closableAction,
         panelClassName,
       } = item;
 
@@ -113,6 +117,8 @@ export default class Tabs extends PureComponent {
       const tabPayload = {
         ...payload,
         title,
+        closable,
+        closableAction,
         className: tabClassName,
       };
 
@@ -153,9 +159,11 @@ export default class Tabs extends PureComponent {
     }, { tabsVisible: {}, tabsHidden: [], panels: [] });
   }
 
-  getTabProps = ({ title, key, selected, collapsed, tabIndex, disabled, className }) => ({
+  getTabProps = ({ title, key, selected, collapsed, tabIndex, disabled, className, closable, closableAction }) => ({
     selected,
     children: title,
+    closable,
+    closableAction,
     key: tabPrefix + key,
     id: tabPrefix + key,
     ref: e => (this.tabRefs[tabPrefix + key] = e),

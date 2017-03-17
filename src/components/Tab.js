@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import cs from 'classnames';
 
 function onTabClick(selected, onClick, originalKey) {
   return () => !selected && onClick(originalKey);
@@ -23,13 +24,15 @@ export default class Tab extends PureComponent {
       onBlur,
       originalKey,
       children,
+      closable,
+      closableAction,
     } = this.props;
 
     return (
       <div
         ref={e => (this.tab = e)}
         role="tab"
-        className={classNames}
+        className={closable ? cs('closable-tab', classNames) : classNames}
         id={id}
         aria-selected={selected ? 'true' : 'false'}
         aria-expanded={selected ? 'true' : 'false'}
@@ -40,7 +43,7 @@ export default class Tab extends PureComponent {
         onFocus={onFocus(originalKey)}
         onBlur={onBlur}
       >
-        {children}
+        {children} { closable && <div className="tab_closable-btn" onClick={closableAction} >!</div>}
       </div>
     );
   }
@@ -61,6 +64,8 @@ Tab.propTypes = {
   onFocus: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
+  closable: PropTypes.bool,
+  closableAction: PropTypes.func,
   originalKey: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -69,6 +74,8 @@ Tab.propTypes = {
 };
 
 Tab.defaultProps = {
+  closable: false,
+  closableAction: () => {},
   children: undefined,
   disabled: false,
 };
