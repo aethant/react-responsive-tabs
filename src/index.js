@@ -32,9 +32,7 @@ export default class Tabs extends PureComponent {
     if (this.props.items !== nextProps.items) {
       this.setState({ blockWidth: 0 });
     }
-    // if (this.props.selectedTabKey !== nextProps.selectedTabKey) {
     this.setState({ selectedTabKey: nextProps.selectedTabKey });
-   // }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
