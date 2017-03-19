@@ -14,7 +14,6 @@ export default class Tabs extends PureComponent {
     super(props);
 
     this.tabRefs = {};
-
     this.state = {
       tabsWidth: {},
       blockWidth: 0,
@@ -33,6 +32,9 @@ export default class Tabs extends PureComponent {
     if (this.props.items !== nextProps.items) {
       this.setState({ blockWidth: 0 });
     }
+    // if (this.props.selectedTabKey !== nextProps.selectedTabKey) {
+    this.setState({ selectedTabKey: nextProps.selectedTabKey });
+   // }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -108,7 +110,7 @@ export default class Tabs extends PureComponent {
         disabled,
         tabClassName,
         closable,
-        closableAction,
+        ClosableBtn,
         panelClassName,
       } = item;
 
@@ -118,7 +120,7 @@ export default class Tabs extends PureComponent {
         ...payload,
         title,
         closable,
-        closableAction,
+        ClosableBtn,
         className: tabClassName,
       };
 
@@ -159,11 +161,11 @@ export default class Tabs extends PureComponent {
     }, { tabsVisible: {}, tabsHidden: [], panels: [] });
   }
 
-  getTabProps = ({ title, key, selected, collapsed, tabIndex, disabled, className, closable, closableAction }) => ({
+  getTabProps = ({ title, key, selected, collapsed, tabIndex, disabled, className, closable, ClosableBtn }) => ({
     selected,
     children: title,
     closable,
-    closableAction,
+    ClosableBtn,
     key: tabPrefix + key,
     id: tabPrefix + key,
     ref: e => (this.tabRefs[tabPrefix + key] = e),

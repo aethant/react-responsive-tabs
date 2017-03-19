@@ -25,9 +25,8 @@ export default class Tab extends PureComponent {
       originalKey,
       children,
       closable,
-      closableAction,
+      ClosableBtn,
     } = this.props;
-
     return (
       <div
         ref={e => (this.tab = e)}
@@ -43,7 +42,10 @@ export default class Tab extends PureComponent {
         onFocus={onFocus(originalKey)}
         onBlur={onBlur}
       >
-        {children} { closable && <div className="tab_closable-btn" onClick={closableAction} >!</div>}
+        <div className="Tab--label">
+          <span className="Tab--label__text">{children}</span>
+          { closable ? <span className="Tab--label__btn"><ClosableBtn /></span> : <span /> }
+        </div>
       </div>
     );
   }
@@ -65,7 +67,7 @@ Tab.propTypes = {
   onBlur: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   closable: PropTypes.bool,
-  closableAction: PropTypes.func,
+  ClosableBtn: PropTypes.func,
   originalKey: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -75,7 +77,7 @@ Tab.propTypes = {
 
 Tab.defaultProps = {
   closable: false,
-  closableAction: () => {},
+  ClosableBtn: () => <span />,
   children: undefined,
   disabled: false,
 };
